@@ -38,6 +38,7 @@ start := time.Now()
 fmt.Printf(“done after %v”, time.Since(start))
 */
 
+// Or ../
 func Or(channels ...<-chan interface{}) <-chan interface{} {
 	done := make(chan interface{})
 

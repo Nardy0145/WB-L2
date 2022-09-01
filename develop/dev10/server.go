@@ -7,8 +7,11 @@ import (
 )
 
 const (
+	// HOST ../
 	HOST = "localhost"
+	// PORT ../
 	PORT = "9001"
+	// TYPE ../
 	TYPE = "tcp"
 )
 

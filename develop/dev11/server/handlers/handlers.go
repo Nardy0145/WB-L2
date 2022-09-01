@@ -11,12 +11,14 @@ import (
 	"time"
 )
 
+// Events ../
 var Events map[int]models.Event
 
 func init() {
 	Events = make(map[int]models.Event)
 }
 
+// CreateEvent ../
 func CreateEvent(w http.ResponseWriter, r *http.Request) {
 	if r.Method == http.MethodPost {
 		var event models.Event
@@ -27,11 +29,11 @@ func CreateEvent(w http.ResponseWriter, r *http.Request) {
 		}
 		id, _ := strconv.Atoi(event.Result.Id)
 		Events[id] = event
-		text, _ := getJson("success", 0)
+		text, _ := getJSON("success", 0)
 		_, _ = w.Write(text)
 	} else {
 		w.WriteHeader(500)
-		text, _ := getJson("only post method!", 1)
+		text, _ := getJSON("only post method!", 1)
 		_, err := w.Write(text)
 		if err != nil {
 			log.Println(err)
@@ -39,6 +41,7 @@ func CreateEvent(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
+// UpdateEvent ../
 func UpdateEvent(w http.ResponseWriter, r *http.Request) {
 	if r.Method == http.MethodPost {
 		var event models.Event
@@ -50,12 +53,12 @@ func UpdateEvent(w http.ResponseWriter, r *http.Request) {
 		id, _ := strconv.Atoi(event.Result.Id)
 		if id > len(Events) {
 			w.WriteHeader(400)
-			text, _ := getJson("too big id!", 1)
+			text, _ := getJSON("too big id!", 1)
 			_, _ = w.Write(text)
 			return
 		}
 		var tick bool
-		for k, _ := range Events {
+		for k := range Events {
 			if k == id {
 				Events[k] = event
 				tick = true
@@ -63,16 +66,16 @@ func UpdateEvent(w http.ResponseWriter, r *http.Request) {
 			}
 		}
 		if tick {
-			text, _ := getJson("success", 0)
+			text, _ := getJSON("success", 0)
 			_, _ = w.Write(text)
 		} else {
 			w.WriteHeader(400)
-			text, _ := getJson("no event with such id!", 1)
+			text, _ := getJSON("no event with such id!", 1)
 			_, _ = w.Write(text)
 		}
 	} else {
 		w.WriteHeader(500)
-		text, _ := getJson("only post method!", 1)
+		text, _ := getJSON("only post method!", 1)
 		_, err := w.Write(text)
 		if err != nil {
 			log.Println(err)
@@ -80,6 +83,7 @@ func UpdateEvent(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
+// DeleteEvent ../
 func DeleteEvent(w http.ResponseWriter, r *http.Request) {
 	if r.Method == http.MethodPost {
 		var event models.Event
@@ -91,7 +95,7 @@ func DeleteEvent(w http.ResponseWriter, r *http.Request) {
 		id, _ := strconv.Atoi(event.Result.Id)
 		if id > len(Events) {
 			w.WriteHeader(400)
-			text, _ := getJson("too big id!", 1)
+			text, _ := getJSON("too big id!", 1)
 			_, err := w.Write(text)
 			if err != nil {
 				log.Println(err)
@@ -99,45 +103,48 @@ func DeleteEvent(w http.ResponseWriter, r *http.Request) {
 			return
 		}
 		delete(Events, id)
-		text, _ := getJson("success", 0)
+		text, _ := getJSON("success", 0)
 		_, _ = w.Write(text)
 	} else {
 		w.WriteHeader(500)
-		text, _ := getJson("only post method!", 1)
+		text, _ := getJSON("only post method!", 1)
 		_, _ = w.Write(text)
 	}
 }
 
+// EventsForDay ../
 func EventsForDay(w http.ResponseWriter, r *http.Request) {
 	if r.Method == http.MethodGet {
 		resp, err := getEvents(1)
 		if err != nil {
 			w.WriteHeader(503)
-			text, _ := getJson("get events went wrong", 1)
+			text, _ := getJSON("get events went wrong", 1)
 			_, _ = w.Write(text)
 		}
 		_, _ = w.Write(resp)
 	}
 }
 
+// EventsForWeek ../
 func EventsForWeek(w http.ResponseWriter, r *http.Request) {
 	if r.Method == http.MethodGet {
 		resp, err := getEvents(7)
 		if err != nil {
 			w.WriteHeader(503)
-			text, _ := getJson("get events went wrong", 1)
+			text, _ := getJSON("get events went wrong", 1)
 			_, _ = w.Write(text)
 		}
 		_, _ = w.Write(resp)
 	}
 }
 
+// EventsForMonth ../
 func EventsForMonth(w http.ResponseWriter, r *http.Request) {
 	if r.Method == http.MethodGet {
 		resp, err := getEvents(30)
 		if err != nil {
 			w.WriteHeader(503)
-			text, _ := getJson("get events went wrong", 1)
+			text, _ := getJSON("get events went wrong", 1)
 			_, _ = w.Write(text)
 		}
 		_, _ = w.Write(resp)
@@ -169,7 +176,7 @@ func getEvents(days int) ([]byte, error) {
 	return json.Marshal(ets)
 }
 
-func getJson(str string, code int) ([]byte, error) {
+func getJSON(str string, code int) ([]byte, error) {
 	switch code {
 	case 0:
 		res := models.Success{}

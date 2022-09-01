@@ -64,6 +64,7 @@ func parseFile(name string) {
 	}
 }
 
+// Parse ...
 func Parse(str string) string {
 	// Если задан флаг -s и полученная строка не содержит кастом разделитель - возвращаем пустоту
 	if s && !strings.Contains(str, d) {

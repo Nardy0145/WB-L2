@@ -30,12 +30,14 @@ var (
 	timeOut time.Duration
 )
 
+// Client ../
 type Client struct {
 	address string
 	timeout time.Duration
 	conn    net.Conn
 }
 
+// InitClient ../
 func InitClient(addr string, timeOut time.Duration) Client {
 	return Client{
 		address: addr,
@@ -43,6 +45,7 @@ func InitClient(addr string, timeOut time.Duration) Client {
 	}
 }
 
+// Open ../
 func (c *Client) Open() error {
 	if c.conn == nil {
 		conn, err := net.DialTimeout("tcp", c.address, c.timeout)
@@ -56,6 +59,7 @@ func (c *Client) Open() error {
 	return nil
 }
 
+// Close ../
 func (c *Client) Close() error {
 	if c.conn != nil {
 		err := c.conn.Close()
@@ -68,6 +72,7 @@ func (c *Client) Close() error {
 	return nil
 }
 
+// Write ../
 func (c *Client) Write(b []byte) (int, error) {
 	if c.conn == nil {
 		fmt.Println("no any connection!")
@@ -76,6 +81,7 @@ func (c *Client) Write(b []byte) (int, error) {
 	return c.conn.Write(b)
 }
 
+// Read ../
 func (c *Client) Read(b []byte) (int, error) {
 	if c.conn == nil {
 		fmt.Println("no any connection!")
@@ -126,6 +132,6 @@ func main() {
 		log.Fatal(err)
 	case <-ctrlD:
 		_ = telnet.Close()
-		fmt.Println("Ctrl+D")
+		fmt.Println("caught Ctrl+D")
 	}
 }
