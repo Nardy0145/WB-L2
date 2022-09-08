@@ -8,6 +8,7 @@ import (
 	"net"
 	"os"
 	"os/signal"
+	"syscall"
 	"time"
 )
 
@@ -125,7 +126,7 @@ func main() {
 	go startRead(errChan, &telnet)
 	go startWrite(errChan, &telnet)
 	ctrlD := make(chan os.Signal, 1)
-	signal.Notify(ctrlD, os.Interrupt)
+	signal.Notify(ctrlD, syscall.SIGKILL)
 	select {
 	case err := <-errChan:
 		_ = telnet.Close()

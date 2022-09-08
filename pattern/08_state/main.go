@@ -1,43 +1,48 @@
 package main
 
-import "fmt"
-
-type something struct {
-	value int
-	state states
-}
-
-type states struct {
-	first  bool
-	second bool
-	third  bool
-	fourth bool
-}
-
-func doOperationsBasedOnState(whatever something) {
-	if whatever.state.first {
-		fmt.Println("job based on first state")
-	}
-	if whatever.state.second {
-		fmt.Println("job based on first state")
-	}
-	if whatever.state.third {
-		fmt.Println("job based on third state")
-	}
-	if whatever.state.fourth {
-		fmt.Println("job based on fourth state")
-	}
-}
+import (
+	"fmt"
+	"log"
+)
 
 func main() {
-	something := something{
-		value: 500,
-		state: states{first: true},
+	vendingMachine := newVendingMachine(1, 10)
+	err := vendingMachine.requestItem()
+	if err != nil {
+		log.Fatalf(err.Error())
 	}
-	doOperationsBasedOnState(something)
-	something.state.first = false
-	something.state.third = true
-	doOperationsBasedOnState(something)
-}
 
-// Состояние
+	err = vendingMachine.insertMoney(10)
+	if err != nil {
+		log.Fatalf(err.Error())
+	}
+
+	err = vendingMachine.dispenseItem()
+	if err != nil {
+		log.Fatalf(err.Error())
+	}
+
+	fmt.Println()
+
+	err = vendingMachine.addItem(2)
+	if err != nil {
+		log.Fatalf(err.Error())
+	}
+
+	fmt.Println()
+
+	err = vendingMachine.requestItem()
+	if err != nil {
+		log.Fatalf(err.Error())
+	}
+
+	err = vendingMachine.insertMoney(10)
+	if err != nil {
+		log.Fatalf(err.Error())
+	}
+
+	err = vendingMachine.dispenseItem()
+	if err != nil {
+		log.Fatalf(err.Error())
+	}
+}

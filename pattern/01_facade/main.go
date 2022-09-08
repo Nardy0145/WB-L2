@@ -14,7 +14,7 @@ type Game struct {
 
 func BuyGame(card Card, game Game) {
 	if card.balance < game.cost {
-		fmt.Println("no enough money")
+		fmt.Println("not enough money")
 	} else {
 		fmt.Println(" congratulations, you've just bought: ", game.name)
 	}
@@ -34,3 +34,6 @@ func main() {
 
 // Паттерн фасад.
 // Он позволяет клиенту работать с десятками компонентов, используя при этом простой интерфейс.
+
+// + Изолирует клиентов от компонентов сложной подсистемы.
+// - Фасад рискует стать божественным объектом, привязанным ко всем классам программы.

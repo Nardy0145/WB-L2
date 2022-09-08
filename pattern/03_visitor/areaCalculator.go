@@ -1,22 +1,22 @@
 package main
 
-import (
-	"fmt"
-)
+import "fmt"
 
-type AreaCalculator struct {
+type areaCalculator struct {
 	area int
 }
 
-func (a *AreaCalculator) visitForSquare(s *Square) {
-	area := s.side
-	fmt.Printf("Calc area operations for square: %d\n", area)
+func (a *areaCalculator) visitForSquare(s *square) {
+	fmt.Println("Calculating area for square")
+	a.area = s.side * 4
 }
-func (a *AreaCalculator) visitForCircle(c *Circle) {
-	area := c.radius * 2
-	fmt.Printf("Calc diameter operations for circle: %d\n", area)
+
+func (a *areaCalculator) visitForCircle(c *circle) {
+	fmt.Println("Calculating ~ area for circle")
+	a.area = c.radius * 2 * 3
 }
-func (a *AreaCalculator) visitForRectangle(t *Rectangle) {
-	area := t.l + t.b + t.b
-	fmt.Printf("Calc area operations for rectangle: %d\n", area)
+
+func (a *areaCalculator) visitForTriangle(t *triangle) {
+	fmt.Println("Calculating area for triangle")
+	a.area = t.border + t.border + t.lower
 }

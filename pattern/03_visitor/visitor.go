@@ -1,7 +1,7 @@
 package main
 
-type Visitor interface {
-	visitForSquare(*Square)
-	visitForCircle(*Circle)
-	visitForRectangle(*Rectangle)
+type visitor interface {
+	visitForSquare(*square)
+	visitForCircle(*circle)
+	visitForTriangle(*triangle)
 }
